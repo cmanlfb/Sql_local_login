@@ -14,6 +14,7 @@ interface User {
 interface CurrentUser {
   id: number;
   username: string;
+  email: string;
 }
 
 interface ApiSuccess<T> {
@@ -73,7 +74,7 @@ function showApp(user: CurrentUser): void {
   loginCard.hidden = true;
   loggedInCard.hidden = false;
   userListCard.hidden = false;
-  loggedInAsEl.textContent = `Angemeldet als ${user.username}`;
+  loggedInAsEl.textContent = `Angemeldet als ${user.username} Email: ${user.email}`;
 }
 
 /**

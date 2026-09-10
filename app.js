@@ -42,7 +42,7 @@ function showApp(user) {
     loginCard.hidden = true;
     loggedInCard.hidden = false;
     userListCard.hidden = false;
-    loggedInAsEl.textContent = `Angemeldet als ${user.username}`;
+    loggedInAsEl.textContent = `Angemeldet als ${user.username} Email: ${user.email}`;
 }
 /**
  * Schaltet zurück auf "ausgeloggt": Login-Formular einblenden,

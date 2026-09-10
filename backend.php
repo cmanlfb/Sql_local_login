@@ -60,8 +60,7 @@ if ($method === 'POST' && ($_GET['action'] ?? '') === 'login') {
 
     $username = trim((string)($input['username'] ?? ''));
     $password = (string)($input['password'] ?? '');
-
-    $stmt = $pdo->prepare('SELECT id, username, password_hash FROM users WHERE username = :username');
+    $stmt = $pdo->prepare('SELECT id, username, email, password_hash FROM users WHERE username = :username');
     $stmt->execute([':username' => $username]);
     $user = $stmt->fetch();
 
@@ -75,8 +74,8 @@ if ($method === 'POST' && ($_GET['action'] ?? '') === 'login') {
     session_regenerate_id(true);
     $_SESSION['user_id'] = $user['id'];
     $_SESSION['username'] = $user['username'];
-
-    send(['success' => true, 'data' => ['id' => $user['id'], 'username' => $user['username']]]);
+    $_SESSION['email'] = $user['email'];
+    send(['success' => true, 'data' => ['id' => $user['id'], 'username' => $user['username'], 'email' => $user['email']]]);
 }
 
 // Logout
@@ -89,7 +88,7 @@ if ($method === 'POST' && ($_GET['action'] ?? '') === 'logout') {
 // Aktuellen Login-Status abfragen
 if ($method === 'GET' && ($_GET['action'] ?? '') === 'me') {
     if (isset($_SESSION['user_id'])) {
-        send(['success' => true, 'data' => ['id' => $_SESSION['user_id'], 'username' => $_SESSION['username']]]);
+        send(['success' => true, 'data' => ['id' => $_SESSION['user_id'], 'username' => $_SESSION['username'], 'email' => $_SESSION['email']]]);
     }
     send(['success' => false, 'error' => 'Nicht eingeloggt.'], 401);
 }
